@@ -1,0 +1,36 @@
+name: Python CI
+
+# Trigger the workflow on any push to the main branch or pull request
+on:
+  push:
+    branches:
+      - main ## inga nama staging or production nu diff branch mention panikla,so staging branch la push request trigger achuna trigger panu
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest ## intha whole application eh ubuntu server la container ah run pani test panu solrom
+    ## venuna nama linux, window, macos nu diff server mention panla antha os la run agu intha application
+
+    steps:
+      # Step 1: Check out the code from the repository
+      ## suppose main branch la push trigger achuna ena steps follow pananutu inga ella steps uh mention panla
+      - name: Check out code
+        uses: actions/checkout@v2 ## inga main branch la irnthu code eh code eh copy pani ubuntu container la potu vachukrom
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8' ## inga 3.8 version python env create panu
+    
+      # Step 3: Install dependencies 
+      - name: Install dependencies ## inga intha project run pana thevayana dependencies ellathyu run panrom 
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+    
+      # Step 4: Run tests 
+      - name: Run tests ## finally inga namloda pytest run panrom
+        run: pytest ## intha pytest cmd run ana aprm, tests folder enga irkuntu search pani testcase run panu
